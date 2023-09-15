@@ -6,9 +6,9 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.luahr.topicos1.application.Result;
-import br.luahr.topicos1.dto.ClienteResponseDTO;
+import br.luahr.topicos1.dto.UsuarioResponseDTO;
 import br.luahr.topicos1.form.ImageForm;
-import br.luahr.topicos1.service.ClienteService;
+import br.luahr.topicos1.service.UsuarioService;
 import br.luahr.topicos1.service.FileService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -26,12 +26,12 @@ import jakarta.ws.rs.core.Response.Status;
 @Path("/usuariologado")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ClienteLogadoResource {
+public class UsuarioLogadoResource {
     @Inject
     JsonWebToken jwt;
 
     @Inject
-    ClienteService clienteService;
+    UsuarioService usuarioService;
 
     @Inject
     FileService fileService;
@@ -41,9 +41,9 @@ public class ClienteLogadoResource {
     public Response getUsuario() {
         // obtendo o login a partir do token
         String login = jwt.getSubject();
-        ClienteResponseDTO clienteResponseDTO = clienteService.findByLogin(login);
+        UsuarioResponseDTO usuarioResponseDTO = usuarioService.findByLogin(login);
 
-        return Response.ok(clienteResponseDTO).build();
+        return Response.ok(usuarioResponseDTO).build();
     }
 
     @PATCH
@@ -61,11 +61,11 @@ public class ClienteLogadoResource {
         }
 
         String login = jwt.getSubject();
-        ClienteResponseDTO cliente = clienteService.findByLogin(login);
+        UsuarioResponseDTO usuario = usuarioService.findByLogin(login);
 
-        cliente = clienteService.update(cliente.id(), nomeImagem);
+        usuario = usuarioService.update(usuario.id(), nomeImagem);
 
-        return Response.ok(cliente).build();
+        return Response.ok(usuario).build();
     }
 
     @GET

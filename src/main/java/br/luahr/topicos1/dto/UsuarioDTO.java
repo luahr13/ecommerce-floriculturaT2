@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record ClienteDTO(
+public record UsuarioDTO(
     @NotBlank(message = "O campo precisa ser preenchido.")
     String nome,
 

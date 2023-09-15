@@ -13,7 +13,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 @Entity
-public class Cliente extends DefaultEntity{
+public class Usuario extends DefaultEntity{
 
     @Column(length = 60)
     private String nome;

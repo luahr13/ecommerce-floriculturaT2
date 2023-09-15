@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 
-import br.luahr.topicos1.dto.AuthClienteDTO;
+import br.luahr.topicos1.dto.AuthUsuarioDTO;
 import br.luahr.topicos1.dto.FornecedorDTO;
 import br.luahr.topicos1.dto.FornecedorResponseDTO;
 import br.luahr.topicos1.service.FornecedorService;
@@ -29,7 +29,7 @@ public class FornecedorResourceTeste {
 
         @BeforeEach
         public void setUp() {
-                var auth = new AuthClienteDTO("janio", "123");
+                var auth = new AuthUsuarioDTO("janio", "123");
 
                 Response response = (Response) given()
                                 .contentType("application/json")

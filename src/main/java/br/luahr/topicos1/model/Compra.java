@@ -8,7 +8,7 @@ public class Compra extends DefaultEntity{
     private Double totalCompra;
 
     @OneToOne
-    private Cliente cliente;
+    private Usuario usuario;
 
     @OneToOne
     private Flor itemProduto;
@@ -23,12 +23,12 @@ public class Compra extends DefaultEntity{
         this.totalCompra = totalCompra;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Integer getQuantidadeProduto() {

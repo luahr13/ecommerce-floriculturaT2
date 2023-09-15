@@ -32,13 +32,13 @@ public class CompraResource {
     @Inject
     CompraService compraService;
 
-    private static final Logger LOG = Logger.getLogger(ClienteResource.class);
+    private static final Logger LOG = Logger.getLogger(UsuarioResource.class);
 
     @GET
     @RolesAllowed({"Admin", "User"})
     public List<CompraResponseDTO> getAll() {
-        LOG.info("Buscando todos os clientes.");
-        LOG.debug("Debug de busca de lista de clientes.");
+        LOG.info("Buscando todos os usuarios.");
+        LOG.debug("Debug de busca de lista de usuarios.");
         return compraService.getAll();
     }
 
@@ -46,8 +46,8 @@ public class CompraResource {
     @Path("/{id}")
     @RolesAllowed({"Admin", "User"})
     public CompraResponseDTO findById(@PathParam("id") Long id) {
-        LOG.info("Buscando um cliente por ID.");
-        LOG.debug("Debug de busca de ID de clientes.");
+        LOG.info("Buscando um usuario por ID.");
+        LOG.debug("Debug de busca de ID de usuarios.");
         return compraService.findById(id);
     }
 
@@ -55,13 +55,13 @@ public class CompraResource {
     @Transactional
     @RolesAllowed({"Admin"})
     public Response insert(CompraDTO compraDTO) {
-        LOG.info("Inserindo um cliente.");
+        LOG.info("Inserindo um usuario.");
         try {
             CompraResponseDTO compra = compraService.create(compraDTO);
             return Response.status(Status.CREATED).entity(compra).build();
         } catch(ConstraintViolationException e) {
             Result result = new Result(e.getConstraintViolations());
-            LOG.debug("Debug de inserção de clientes.");
+            LOG.debug("Debug de inserção de usuarios.");
             return Response.status(Status.NOT_FOUND).entity(result).build();
         }
     }
@@ -73,13 +73,13 @@ public class CompraResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response update(@PathParam("id") Long id, CompraDTO compraDTO) {
-        LOG.info("Atualiza um cliente.");
+        LOG.info("Atualiza um usuario.");
         try {
             CompraResponseDTO compra = compraService.update(id, compraDTO);
             return Response.status(Status.NO_CONTENT).entity(compra).build();
         } catch(ConstraintViolationException e) {
             Result result = new Result(e.getConstraintViolations());
-            LOG.debug("Debug de updat de clientes.");
+            LOG.debug("Debug de updat de usuarios.");
             return Response.status(Status.NOT_FOUND).entity(result).build();
         }
     }
@@ -88,9 +88,9 @@ public class CompraResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) {
-        LOG.info("deleta um cliente.");
+        LOG.info("deleta um usuario.");
         compraService.delete(id);
-        LOG.debug("Debug de deletar clientes.");
+        LOG.debug("Debug de deletar usuarios.");
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -98,7 +98,7 @@ public class CompraResource {
     @Path("/count")
     @RolesAllowed({"Admin", "User"})
     public long count(){
-        LOG.info("Conta clientes.");
+        LOG.info("Conta usuarios.");
         return compraService.count();
     }
 
@@ -106,7 +106,7 @@ public class CompraResource {
     @Path("/search/{nome}")
     @RolesAllowed({"Admin", "User"})
     public List<CompraResponseDTO> search(@PathParam("nome") String nome){
-        LOG.info("Busca nome de clientes.");
+        LOG.info("Busca nome de usuarios.");
         return compraService.findByNome(nome);
     }
     

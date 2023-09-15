@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 public record CompraDTO(
     @NotNull
     @Positive
-    Long idCliente,
+    Long idUsuario,
     @NotNull
     @Positive
     Long idProduto,

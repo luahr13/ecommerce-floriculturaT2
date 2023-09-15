@@ -4,7 +4,7 @@ import br.luahr.topicos1.model.Compra;
 
 public record CompraResponseDTO(
     Long id,
-    ClienteResponseDTO cliente,
+    UsuarioResponseDTO usuario,
     FlorResponseDTO produto,
     Integer quantidadeProduto,
     Double totalCompra
@@ -12,7 +12,7 @@ public record CompraResponseDTO(
     public CompraResponseDTO(Compra compra){
         this(
             compra.getId(),
-            new ClienteResponseDTO(compra.getCliente()),
+            new UsuarioResponseDTO(compra.getUsuario()),
             new FlorResponseDTO(compra.getItemProduto()),
             compra.getQuantidadeProduto(),
             compra.getTotalCompra());

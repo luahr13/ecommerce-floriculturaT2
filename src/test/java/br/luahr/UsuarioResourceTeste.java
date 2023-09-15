@@ -6,14 +6,14 @@ import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 
-import br.luahr.topicos1.dto.AuthClienteDTO;
-import br.luahr.topicos1.dto.ClienteDTO;
-import br.luahr.topicos1.dto.ClienteResponseDTO;
+import br.luahr.topicos1.dto.AuthUsuarioDTO;
+import br.luahr.topicos1.dto.UsuarioDTO;
+import br.luahr.topicos1.dto.UsuarioResponseDTO;
 import br.luahr.topicos1.dto.EnderecoDTO;
 import br.luahr.topicos1.dto.EstadoDTO;
 import br.luahr.topicos1.dto.MunicipioDTO;
 import br.luahr.topicos1.dto.TelefoneDTO;
-import br.luahr.topicos1.service.ClienteService;
+import br.luahr.topicos1.service.UsuarioService;
 import br.luahr.topicos1.service.EnderecoService;
 import br.luahr.topicos1.service.EstadoService;
 import br.luahr.topicos1.service.MunicipioService;
@@ -31,13 +31,13 @@ import org.junit.jupiter.api.BeforeEach;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class ClienteResourceTeste {
+public class UsuarioResourceTeste {
 
         private String token;
 
         @BeforeEach
         public void setUp() {
-                var auth = new AuthClienteDTO("janio", "123");
+                var auth = new AuthUsuarioDTO("janio", "123");
 
                 Response response = (Response) given()
                                 .contentType("application/json")
@@ -51,7 +51,7 @@ public class ClienteResourceTeste {
         }
 
         @Inject
-        ClienteService clienteService;
+        UsuarioService usuarioService;
 
         @Inject
         TelefoneService telefoneService;
@@ -69,7 +69,7 @@ public class ClienteResourceTeste {
         public void testGetAll() {
                 given()
                                 .header("Authorization", "Bearer " + token)
-                                .when().get("/clientes")
+                                .when().get("/usuarios")
                                 .then()
                                 .statusCode(200);
         }
@@ -80,7 +80,7 @@ public class ClienteResourceTeste {
                 Long idEstado = estadoService.create(new EstadoDTO("Tocantins", "TO")).id();
                 Long idMunicipio = municipioService.create(new MunicipioDTO("Palmas", idEstado)).id();
                 Long idEndereco = enderecoService.create(new EnderecoDTO("Norte", "13", "QI05", "77002-023", idMunicipio)).id();
-                ClienteDTO clienteDTO = new ClienteDTO(
+                UsuarioDTO usuarioDTO = new UsuarioDTO(
                                 "Luahr",
                                 "luahr",
                                 "123",
@@ -91,8 +91,8 @@ public class ClienteResourceTeste {
                 given()
                                 .header("Authorization", "Bearer " + token)
                                 .contentType(ContentType.JSON)
-                                .body(clienteDTO)
-                                .when().post("/clientes")
+                                .body(usuarioDTO)
+                                .when().post("/usuarios")
                                 .then()
                                 .statusCode(201)
                                 .body("id", notNullValue(),
@@ -109,7 +109,7 @@ public class ClienteResourceTeste {
                 Long idEstado = estadoService.create(new EstadoDTO("Tocantins", "TO")).id();
                 Long idMunicipio = municipioService.create(new MunicipioDTO("Palmas", idEstado)).id();
                 Long idEndereco = enderecoService.create(new EnderecoDTO("Norte", "13", "QI05", "77002-023", idMunicipio)).id();
-                ClienteDTO clienteDTO = new ClienteDTO(
+                UsuarioDTO usuarioDTO = new UsuarioDTO(
                                 "Luahr",
                                 "luahr",
                                 "123",
@@ -117,8 +117,8 @@ public class ClienteResourceTeste {
                                 1,
                                 idTelefone,
                                 idEndereco);
-                Long idLong = clienteService.create(clienteDTO).id();
-                ClienteDTO clienteUpDto = new ClienteDTO(
+                Long idLong = usuarioService.create(usuarioDTO).id();
+                UsuarioDTO usuarioUpDto = new UsuarioDTO(
                                 "Luahr",
                                 "luahr",
                                 "123",
@@ -129,17 +129,17 @@ public class ClienteResourceTeste {
                 given()
                                 .header("Authorization", "Bearer " + token)
                                 .contentType(ContentType.JSON)
-                                .body(clienteUpDto)
-                                .when().put("/clientes/" + idLong)
+                                .body(usuarioUpDto)
+                                .when().put("/usuarios/" + idLong)
                                 .then()
                                 .statusCode(204);
-                ClienteResponseDTO clienteResponseDTO = clienteService.findById(idLong);
-                assertThat(clienteResponseDTO.nome(), is("Luahr"));
-                assertThat(clienteResponseDTO.login(), is("luahr"));
-                assertThat(clienteResponseDTO.cpf(), is("11111111111-22"));
-                assertThat(clienteResponseDTO.sexo(), notNullValue());
-                assertThat(clienteResponseDTO.telefone(), notNullValue());
-                assertThat(clienteResponseDTO.endereco(), notNullValue());
+                UsuarioResponseDTO usuarioResponseDTO = usuarioService.findById(idLong);
+                assertThat(usuarioResponseDTO.nome(), is("Luahr"));
+                assertThat(usuarioResponseDTO.login(), is("luahr"));
+                assertThat(usuarioResponseDTO.cpf(), is("11111111111-22"));
+                assertThat(usuarioResponseDTO.sexo(), notNullValue());
+                assertThat(usuarioResponseDTO.telefone(), notNullValue());
+                assertThat(usuarioResponseDTO.endereco(), notNullValue());
         }
 
         @Test
@@ -148,7 +148,7 @@ public class ClienteResourceTeste {
                 Long idEstado = estadoService.create(new EstadoDTO("Tocantins", "TO")).id();
                 Long idMunicipio = municipioService.create(new MunicipioDTO("Palmas", idEstado)).id();
                 Long idEndereco = enderecoService.create(new EnderecoDTO("Norte", "13", "QI05", "77002-023", idMunicipio)).id();
-                ClienteDTO clienteDTO = new ClienteDTO(
+                UsuarioDTO usuarioDTO = new UsuarioDTO(
                                 "Luahr",
                                 "luahr",
                                 "123",
@@ -156,19 +156,19 @@ public class ClienteResourceTeste {
                                 1,
                                 idTelefone,
                                 idEndereco);
-                Long idLong = clienteService.create(clienteDTO).id();
+                Long idLong = usuarioService.create(usuarioDTO).id();
                 given()
                                 .header("Authorization", "Bearer " + token)
-                                .when().delete("/clientes/" + idLong)
+                                .when().delete("/usuarios/" + idLong)
                                 .then()
                                 .statusCode(204);
                 // verificando se a pessoa fisica foi excluida
-                ClienteResponseDTO clienteResponseDTO = null;
+                UsuarioResponseDTO usuarioResponseDTO = null;
                 try {
-                        clienteService.findById(idLong);
+                        usuarioService.findById(idLong);
                 } catch (Exception e) {
                 } finally {
-                        assertNull(clienteResponseDTO);
+                        assertNull(usuarioResponseDTO);
                 }
         }
 }

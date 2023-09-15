@@ -14,10 +14,10 @@ import jakarta.ws.rs.NotFoundException;
 
 import br.luahr.topicos1.dto.CompraDTO;
 import br.luahr.topicos1.dto.CompraResponseDTO;
-import br.luahr.topicos1.model.Cliente;
+import br.luahr.topicos1.model.Usuario;
 import br.luahr.topicos1.model.Compra;
 import br.luahr.topicos1.model.Flor;
-import br.luahr.topicos1.repository.ClienteRepository;
+import br.luahr.topicos1.repository.UsuarioRepository;
 import br.luahr.topicos1.repository.CompraRepository;
 import br.luahr.topicos1.repository.FlorRepository;
 
@@ -28,7 +28,7 @@ public class CompraImplService implements CompraService {
     CompraRepository compraRepository;
 
     @Inject
-    ClienteRepository clienteRepository;
+    UsuarioRepository usuarioRepository;
 
     @Inject
     FlorRepository florRepository;
@@ -64,8 +64,8 @@ public class CompraImplService implements CompraService {
         validar(compraDTO);
 
         Compra entity = new Compra();
-        Cliente cliente = clienteRepository.findById(compraDTO.idCliente());
-        entity.setCliente(cliente);
+        Usuario usuario = usuarioRepository.findById(compraDTO.idUsuario());
+        entity.setUsuario(usuario);
 
         Flor flor = florRepository.findById(compraDTO.idProduto());
         entity.setItemProduto(flor);

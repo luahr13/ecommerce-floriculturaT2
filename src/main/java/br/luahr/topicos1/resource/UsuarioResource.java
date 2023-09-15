@@ -21,48 +21,48 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import br.luahr.topicos1.application.Result;
-import br.luahr.topicos1.dto.ClienteDTO;
-import br.luahr.topicos1.dto.ClienteResponseDTO;
-import br.luahr.topicos1.service.ClienteService;
+import br.luahr.topicos1.dto.UsuarioDTO;
+import br.luahr.topicos1.dto.UsuarioResponseDTO;
+import br.luahr.topicos1.service.UsuarioService;
 
-@Path("/clientes")
+@Path("/usuarios")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ClienteResource {
+public class UsuarioResource {
 
     @Inject
-    ClienteService clienteService;
+    UsuarioService usuarioService;
 
-    private static final Logger LOG = Logger.getLogger(ClienteResource.class);
+    private static final Logger LOG = Logger.getLogger(UsuarioResource.class);
 
     @GET
     @RolesAllowed({"Admin", "User"})
-    public List<ClienteResponseDTO> getAll() {
-        LOG.info("Buscando todos os clientes.");
-        LOG.debug("Debug de busca de lista de clientes.");
-        return clienteService.getAll();
+    public List<UsuarioResponseDTO> getAll() {
+        LOG.info("Buscando todos os usuarios.");
+        LOG.debug("Debug de busca de lista de usuarios.");
+        return usuarioService.getAll();
     }
 
     @GET
     @Path("/{id}")
     @RolesAllowed({"Admin", "User"})
-    public ClienteResponseDTO findById(@PathParam("id") Long id) {
-        LOG.info("Buscando um cliente por ID.");
-        LOG.debug("Debug de busca de ID de clientes.");
-        return clienteService.findById(id);
+    public UsuarioResponseDTO findById(@PathParam("id") Long id) {
+        LOG.info("Buscando um usuario por ID.");
+        LOG.debug("Debug de busca de ID de usuarios.");
+        return usuarioService.findById(id);
     }
 
     @POST
     @Transactional
     @RolesAllowed({"Admin"})
-    public Response insert(ClienteDTO clienteDTO) {
-        LOG.info("Inserindo um cliente.");
+    public Response insert(UsuarioDTO usuarioDTO) {
+        LOG.info("Inserindo um usuario.");
         try {
-            ClienteResponseDTO cliente = clienteService.create(clienteDTO);
-            return Response.status(Status.CREATED).entity(cliente).build();
+            UsuarioResponseDTO usuario = usuarioService.create(usuarioDTO);
+            return Response.status(Status.CREATED).entity(usuario).build();
         } catch(ConstraintViolationException e) {
             Result result = new Result(e.getConstraintViolations());
-            LOG.debug("Debug de inserção de clientes.");
+            LOG.debug("Debug de inserção de usuarios.");
             return Response.status(Status.NOT_FOUND).entity(result).build();
         }
     }
@@ -73,14 +73,14 @@ public class ClienteResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response update(@PathParam("id") Long id, ClienteDTO clienteDTO) {
-        LOG.info("Atualiza um cliente.");
+    public Response update(@PathParam("id") Long id, UsuarioDTO usuarioDTO) {
+        LOG.info("Atualiza um usuario.");
         try {
-            ClienteResponseDTO cliente = clienteService.update(id, clienteDTO);
-            return Response.status(Status.NO_CONTENT).entity(cliente).build();
+            UsuarioResponseDTO usuario = usuarioService.update(id, usuarioDTO);
+            return Response.status(Status.NO_CONTENT).entity(usuario).build();
         } catch(ConstraintViolationException e) {
             Result result = new Result(e.getConstraintViolations());
-            LOG.debug("Debug de updat de clientes.");
+            LOG.debug("Debug de updat de usuarios.");
             return Response.status(Status.NOT_FOUND).entity(result).build();
         }
     }
@@ -89,9 +89,9 @@ public class ClienteResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) {
-        LOG.info("deleta um cliente.");
-        clienteService.delete(id);
-        LOG.debug("Debug de deletar clientes.");
+        LOG.info("deleta um usuario.");
+        usuarioService.delete(id);
+        LOG.debug("Debug de deletar usuarios.");
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -99,16 +99,16 @@ public class ClienteResource {
     @Path("/count")
     @RolesAllowed({"Admin", "User"})
     public long count(){
-        LOG.info("Conta clientes.");
-        return clienteService.count();
+        LOG.info("Conta usuarios.");
+        return usuarioService.count();
     }
 
     @GET
     @Path("/search/{nome}")
     @RolesAllowed({"Admin", "User"})
-    public List<ClienteResponseDTO> search(@PathParam("nome") String nome){
-        LOG.info("Busca nome de clientes.");
-        return clienteService.findByNome(nome);
+    public List<UsuarioResponseDTO> search(@PathParam("nome") String nome){
+        LOG.info("Busca nome de usuarios.");
+        return usuarioService.findByNome(nome);
     }
     
 }

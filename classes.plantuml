@@ -11,7 +11,7 @@ Class Endereco{
     - cep: String
 }
 
-Class Cliente{
+Class Usuario{
     - id: int
     - nome: String
     - cpf: String
@@ -73,11 +73,11 @@ Class Municipio{
 
 Flor --|> Produto
 
-Cliente "1"  *--> "*" Endereco
+Usuario "1"  *--> "*" Endereco
 
-Cliente "1" *--> "*" Telefone
+Usuario "1" *--> "*" Telefone
 
-Cliente "*" --> "*" Flor: listaDesejos
+Usuario "*" --> "*" Flor: listaDesejos
 
 Flor "*" --> "1" Fornecedor
 
@@ -87,7 +87,7 @@ Municipio "*" --> "1" Estado
 
 Endereco "*" --> "1" Municipio
 
-Cliente "*" --> "1" Sexo
+Usuario "*" --> "1" Sexo
 
 Fornecedor "1" --> "*" Produto
 

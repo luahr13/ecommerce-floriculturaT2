@@ -1,7 +1,7 @@
 package br.luahr.topicos1.service;
 
-import br.luahr.topicos1.model.Cliente;
+import br.luahr.topicos1.model.Usuario;
 
 public interface TokenJwtService {
-    public String generateJwt(Cliente cliente);
+    public String generateJwt(Usuario usuario);
 }

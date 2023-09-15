@@ -34,7 +34,7 @@ Class Endereco{
     - estado String
 }
 
-Class Cliente{
+Class Usuario{
     - id long
     - nome String
     - cpf String
@@ -90,7 +90,7 @@ Class Telefone{
 
 Compra 1  --  ItemCompra
 
-Cliente 1  --  Endereco
+Usuario 1  --  Endereco
 
 Compra   -- 1 Endereco
 
@@ -98,11 +98,11 @@ ItemCompra  -- 1 Flor
 
 Compra 1 --  Pagamento
 
-Compra   -- 1 Cliente
+Compra   -- 1 Usuario
 
-Cliente 1 -- 1 Telefone
+Usuario 1 -- 1 Telefone
 
-Cliente  --  Flor listaDesejos
+Usuario  --  Flor listaDesejos
 
 Flor  -- 1 Fornecedor
 

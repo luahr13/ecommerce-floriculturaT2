@@ -5,8 +5,8 @@ import static io.restassured.RestAssured.given;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.luahr.topicos1.dto.AuthClienteDTO;
-import br.luahr.topicos1.dto.ClienteDTO;
+import br.luahr.topicos1.dto.AuthUsuarioDTO;
+import br.luahr.topicos1.dto.UsuarioDTO;
 import br.luahr.topicos1.dto.CompraDTO;
 import br.luahr.topicos1.dto.EnderecoDTO;
 import br.luahr.topicos1.dto.EstadoDTO;
@@ -14,9 +14,9 @@ import br.luahr.topicos1.dto.FlorDTO;
 import br.luahr.topicos1.dto.FornecedorDTO;
 import br.luahr.topicos1.dto.MunicipioDTO;
 import br.luahr.topicos1.dto.TelefoneDTO;
-import br.luahr.topicos1.model.Cliente;
+import br.luahr.topicos1.model.Usuario;
 import br.luahr.topicos1.model.Produto;
-import br.luahr.topicos1.service.ClienteService;
+import br.luahr.topicos1.service.UsuarioService;
 import br.luahr.topicos1.service.CompraService;
 import br.luahr.topicos1.service.EnderecoService;
 import br.luahr.topicos1.service.EstadoService;
@@ -45,7 +45,7 @@ public class CompraResourceTeste {
     FlorService florService;
 
     @Inject
-    ClienteService clienteService;
+    UsuarioService usuarioService;
 
     @Inject
     EnderecoService enderecoService;
@@ -64,7 +64,7 @@ public class CompraResourceTeste {
 
     @BeforeEach
     public void setUp() {
-        var auth = new AuthClienteDTO("janio", "123");
+        var auth = new AuthUsuarioDTO("janio", "123");
 
         Response response = (Response) given()
                 .contentType("application/json")
@@ -95,14 +95,14 @@ public class CompraResourceTeste {
 
         Long idTelefone = telefoneService.create(new TelefoneDTO("63", "(63) 99999-9999")).id();
 
-        Long idCliente = clienteService
-                .create(new ClienteDTO("Luahr", "luahr", "123", "11111111111-11", 1, idTelefone, idEndereco)).id();
+        Long idUsuario = usuarioService
+                .create(new UsuarioDTO("Luahr", "luahr", "123", "11111111111-11", 1, idTelefone, idEndereco)).id();
         Long idFornecedor = fornecedorService.create(new FornecedorDTO("L&L", "BR", "2023", 10F)).id();
         Long idProduto = florService
                 .create(new FlorDTO("Orquidea", "Bela Flor", 1.5, "Vermelha", 0.3F, 1, idFornecedor)).id();
 
         Integer quantiProd = 10;
-        CompraDTO compraDTO = new CompraDTO(idCliente, idProduto, quantiProd, 10D);
+        CompraDTO compraDTO = new CompraDTO(idUsuario, idProduto, quantiProd, 10D);
 
         given()
                 .header("Authorization", "Bearer " + token)
@@ -112,7 +112,7 @@ public class CompraResourceTeste {
                 .then()
                 .statusCode(201)
                 .body("id", notNullValue(),
-                        "cliente", notNullValue(Cliente.class),
+                        "usuario", notNullValue(Usuario.class),
                         "produto", notNullValue(Produto.class),
                         "quantidadeProduto", is(10),
                         "totalCompra", is(10F));
