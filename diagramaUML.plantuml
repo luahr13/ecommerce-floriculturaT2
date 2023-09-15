@@ -1,0 +1,132 @@
+@startuml ecommerc
+title Diagrama de Classe E-Commerce
+
+Class Compra{
+    - id: int
+    - data: Date
+    - totalCompra: Float
+}
+
+Class Pagamento{
+    - id: int
+    - valorTotal: Double
+    - quantParcela: int
+    - valorParcela: int
+    - descricao: String
+    - statusPagamento: String
+}
+
+Class Endereco{
+    - id: int
+    - principal: String
+    - logradouro: String
+    - bairro: String
+    - numero: String
+    - complemento: String
+    - cep: String
+}
+
+Class Cliente{
+    - id: int
+    - nome: String
+    - cpf: String
+    - senha: String
+    - email: String
+}
+
+enum Sexo{
+    - MASCULINO: String
+    - FEMININO: String
+}
+
+class Produto{
+    - id: int
+    - nome: String
+    - descrição: String
+    - valorUnidade: Float
+}
+
+class Flor{
+    - id: int
+    - corPetalas: String
+    - alturaCaule: Double
+}
+
+enum TipoFlor{
+    - ROSA: String
+    - CRAVO: String
+    - TULIPA: String
+    - MARGARIDA: String
+    - GIRASSOL: String
+    - ORQUIDEA: String
+}
+
+Class Fornecedor{
+    - id: int
+    - produtor: String
+    - país: String
+    - safra: String
+    - volume: String
+}
+
+enum TipoPagamento{
+    - BOLETO: int
+    - PIX: int
+    - CREDITO: int
+    - DEBITO: int
+}
+
+Class ItemCompra{
+    - id: int
+    - quantidade: int
+    - precoUnitario: float
+}
+
+Class Telefone{
+    - id: int
+    - codigoArea: String
+    - numero: String
+}
+
+Class Estado{
+    - id: int
+    - nome: String
+    - sigla: String
+}
+
+Class Municipio{
+    - id: int
+    - nome: String
+}
+
+Flor --|> Produto
+
+Compra "1"  *--> "*" ItemCompra
+
+Cliente "1"  *--> "*" Endereco
+
+Compra "*"  --> "1" Endereco
+
+ItemCompra "*" --> "1" Flor
+
+Compra "1" --> "*" Pagamento
+
+Compra  "*" --> "1" Cliente
+
+Cliente "1" *--> "*" Telefone
+
+Cliente "*" --> "*" Flor: listaDesejos
+
+Flor "*" --> "1" Fornecedor
+
+Flor "*" --> "1" TipoFlor
+
+Pagamento "*" --> "1" TipoPagamento
+
+Municipio "*" --> "1" Estado
+
+Endereco "*" --> "1" Municipio
+
+Cliente "*" --> "1" Sexo
+
+@enduml

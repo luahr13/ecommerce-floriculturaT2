@@ -1,0 +1,115 @@
+@startuml ecommerc
+title Diagrama de Classe E-Commerce
+
+Class Compra{
+    - id long
+    - data Date
+    - totalCompra boolean
+}
+
+Class Pagamento{
+    - id long
+    - valorTotal Double
+    - quantParcela int
+    - valorParcela int
+    - descricao String
+}
+
+enum StatusPagamento{
+    - PENDENTE
+    - PAGO
+    - RECUSADO
+    - CANCELADO
+}
+
+Class Endereco{
+    - id long
+    - principal String
+    - logradouro String
+    - bairro String
+    - numero String
+    - complemento String
+    - cep String
+    - municipio String
+    - estado String
+}
+
+Class Cliente{
+    - id long
+    - nome String
+    - cpf String
+    - senha String
+    - email String
+}
+
+class Flor{
+    - id Long
+    - quantidadeFlores int
+    - buque boolean
+    - vaso boolean
+    - altura Double
+    - comprimento Double
+}
+
+enum TipoFlor{
+    - ROSA String
+    - CRAVO String
+    - TULIPA String
+    - MARGARIDA String
+    - GIRASSOL String
+    - ORQUIDEA String
+}
+
+Class Fornecedor{
+    - id long
+    - produtor String
+    - país String
+    - safra String
+    - volume String
+}
+
+enum TipoPagamento{
+    - BOLETO
+    - PIX
+    - CREDITO
+    - DEBITO
+}
+
+Class ItemCompra{
+    - id long
+    - quantidade int
+    - precoUnitario float
+}
+
+Class Telefone{
+    - id long
+    - codigoArea String
+    - numero String
+}
+
+
+Compra 1  --  ItemCompra
+
+Cliente 1  --  Endereco
+
+Compra   -- 1 Endereco
+
+ItemCompra  -- 1 Flor
+
+Compra 1 --  Pagamento
+
+Compra   -- 1 Cliente
+
+Cliente 1 -- 1 Telefone
+
+Cliente  --  Flor listaDesejos
+
+Flor  -- 1 Fornecedor
+
+Flor  -- 1 TipoFlor
+
+Pagamento  -- 1 StatusPagamento
+
+Pagamento  -- 1 TipoPagamento
+
+@enduml
