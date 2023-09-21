@@ -1,5 +1,6 @@
 package br.luahr.topicos1.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import jakarta.ws.rs.NotFoundException;
+import br.luahr.topicos1.dto.TelefoneDTO;
 import br.luahr.topicos1.dto.UsuarioDTO;
 import br.luahr.topicos1.dto.UsuarioResponseDTO;
 import br.luahr.topicos1.model.Usuario;
@@ -72,16 +74,19 @@ public class UsuarioImplService implements UsuarioService {
         entity.setSenha(hashServiceImpl.getHashSenha(usuarioDTO.senha()));
         entity.setCpf(usuarioDTO.cpf());
 
-        Integer idSexo = usuarioDTO.idSexo(); // Obtém o idSexo do DTO
-        Sexo sexo = idSexo != null ? Sexo.valueOf(idSexo) : null; // Converte para Sexo, considerando null quando idSexo
-                                                                  // for null
-        entity.setSexo(sexo); // Seta o sexo no usuario
+        Integer idSexo = usuarioDTO.idSexo();
+        Sexo sexo = idSexo != null ? Sexo.valueOf(idSexo) : null;
+        entity.setSexo(sexo);
 
-        Telefone telefone = telefoneRepository.findById(usuarioDTO.idTelefone());
-        entity.setTelefone(telefone);
+        List<Telefone> telefones = new ArrayList<>();
+        for (Telefone telefoneDTO : usuarioDTO.telefones()) {
+            Telefone telefone = new Telefone();
+            telefone.setNumero(telefoneDTO.getNumero());
+            telefones.add(telefone);
+        }
+        entity.setTelefone(telefones);
 
-        Endereco endereco = enderecoRepository.findById(usuarioDTO.idEndereco());
-        entity.setEndereco(endereco);
+        entity.setEndereco(usuarioDTO.endereco());
 
         usuarioRepository.persist(entity);
 
@@ -101,13 +106,6 @@ public class UsuarioImplService implements UsuarioService {
         Sexo sexo = idSexo != null ? Sexo.valueOf(idSexo) : null; // Converte para Sexo, considerando null quando idSexo
                                                                   // for null
         entity.setSexo(sexo); // Seta o sexo no usuario
-
-        if (!usuarioDTO.idTelefone().equals(entity.getTelefone().getId())) {
-            entity.getTelefone().setId(usuarioDTO.idTelefone());
-        }
-        if (!usuarioDTO.idEndereco().equals(entity.getEndereco().getId())) {
-            entity.getEndereco().setId(usuarioDTO.idEndereco());
-        }
 
         return new UsuarioResponseDTO(entity);
     }
